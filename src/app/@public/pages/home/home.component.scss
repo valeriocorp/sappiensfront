@@ -1,0 +1,15 @@
+.algo{
+    background-image: url('./../../../../assets/img/examples/bg2.jpg');
+}
+
+@media (max-width: 600px) {
+    .algo{
+        background-image: url('./../../../../assets/img/examples/bg3.jpg');
+    }
+}
+
+
+.btn-tarjeta{
+    margin: 10px;
+    width: 121px;
+}

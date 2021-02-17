@@ -1,0 +1,57 @@
+<button class="btn btn-success float-right m-2" (click)="manageAction('add','')"><i class="fas fa-plus"></i> &nbsp; Añadir</button>
+<select class="custom-select float-right" style="width: auto " [(ngModel)]="filterActiveValues" (ngModelChange)="changePage()">
+    <option [ngValue]="'ALL'">Todos</option>
+    <option [ngValue]="'ACTIVE'">Activos</option>
+    <option [ngValue]="'INACTIVE'">Inactivos</option>
+  </select>
+<div class="table table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col" *ngFor="let column of tableColums">{{column.label}}</th>
+                <th scope="col">Gestionar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of data$ | async">
+                <td *ngFor="let val of tableColums">
+                    <span *ngIf="val.property != 'active'; else activeValue">
+                        {{ data[val.property] }}
+                    </span>
+                    <ng-template #activeValue>
+                        <span *ngIf="data[val.property] == true"><i class="fas fa-check-circle"></i></span>
+                        <span *ngIf="data[val.property] != true"><i class="fas fa-times-circle"></i></span>
+
+                    </ng-template>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-warning" (click)="manageAction('edit',data)"><i class="fas fa-edit"></i></button>&nbsp;
+                    <button type="button" class="btn btn-info" (click)="manageAction('info',data)"><i class="fas fa-info"></i></button>&nbsp;
+                    <button type="button" class="btn btn-danger" (click)="manageAction('block',data)" *ngIf="data['active'] != false; else unblockBtn"><i class="fas fa-lock"></i></button>
+                    <ng-template #unblockBtn>
+                        <button type="button" class="btn btn-danger" (click)="manageAction('unblock',data)"><i class="fas fa-lock-open"></i></button>
+                    </ng-template>
+
+
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<div class="d-flex justify-content-between p-2">
+    <ngb-pagination [collectionSize]="infoPage.total" [maxSize]="5" [boundaryLinks]="true" [(page)]="infoPage.page" [pageSize]="infoPage.itemsPage" (pageChange)="changePage()">
+    </ngb-pagination>
+
+    <select class="custom-select " style="width: auto " [(ngModel)]="infoPage.itemsPage" (ngModelChange)="changePage()">
+      <option [ngValue]="5">5 Items por pagina</option>
+      <option [ngValue]="10">10 Items por pagina</option>
+      <option [ngValue]="15">15 Items por pagina</option>
+      <option [ngValue]="20">20 Items por pagina</option>
+      <option [ngValue]="30">30 Items por pagina</option>
+
+    </select>
+</div>
